@@ -15,7 +15,8 @@ namespace interactive_game
         public int health = 100;
         public float speed = 2f;
         public int damage = 5;
-        public 
+        public int size = 5;
+        public int killvalue = 5;
 
         public Enemy(Vector2[] path, Vector2 startingPosition) 
         {
@@ -23,6 +24,11 @@ namespace interactive_game
 
             chosenPath = path;
             position = startingPosition;
+        }
+
+        public void Die() 
+        {
+            
         }
     }
 }
