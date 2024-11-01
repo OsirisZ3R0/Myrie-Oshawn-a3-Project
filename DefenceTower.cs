@@ -14,6 +14,7 @@ namespace interactive_game
         public int size = 20;
         public int timesUpgrade = 0;
         private int maxUpgrade = 10;
+        public int maxRadius = 100;
 
         public DefenceTower() 
         {
