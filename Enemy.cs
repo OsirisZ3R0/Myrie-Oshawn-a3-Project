@@ -34,5 +34,14 @@ namespace interactive_game
         {
             is_alive = false;
         }
-    }
+        public void UpdateEnemy()
+        {
+            // draw your tower here
+            Draw.LineSize = 2;
+            Draw.LineColor = Color.Red;
+            Draw.FillColor = Color.Black;
+            Draw.Circle(position, size);
+        }
+     
+    }   
 }

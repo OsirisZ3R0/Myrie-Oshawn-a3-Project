@@ -5,6 +5,8 @@ using System.Drawing;
 using System.Net.Mail;
 using System.Numerics;
 using System.Runtime.ExceptionServices;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 
 // The namespace your code is in.
 namespace Game10003
@@ -18,6 +20,8 @@ namespace Game10003
         private const int maxEnemies = 20;
         private const int maxtowers = 5;
 
+        Crosshair crosshair = new Crosshair();
+
         public bool isAltPath = false;
         public Vector2[] path1 = {
             new Vector2(0, 300),
@@ -30,6 +34,17 @@ namespace Game10003
             new Vector2(450, 250),
             new Vector2(450,450),
             new Vector2(800, 550),
+        };
+        public Vector2[] path2 = {
+            new Vector2(0, 300),
+            new Vector2(100, 300),
+            new Vector2(100,350),
+            new Vector2(200,450),
+            new Vector2(350,450),
+            new Vector2(350,300),
+            new Vector2(650,300),
+            new Vector2(750,200),
+            new Vector2(800,200),
         };
 
 
@@ -45,9 +60,10 @@ namespace Game10003
 
             for (int i = 0; i < maxEnemies; i++)
             {
-                RemoveEnemy();
+                RemoveEnemy(i); 
             }
 
+            
 
 
 
@@ -63,6 +79,9 @@ namespace Game10003
 
             GenerateStructures();
             UpdateTowers();
+            UpdateEnemys();
+            crosshair.DrawCrosshair(Input.GetMouseX(), Input.GetMouseY());
+
 
             if (Input.IsMouseButtonPressed(MouseInput.Left))
             {
@@ -107,18 +126,42 @@ namespace Game10003
         {
             for (int i = 0; i < currentEnemies.Length; i++)
             {
-                Enemy currentEnemy = currentEnemies[i];
 
-                if (currentEnemy.is_alive) continue;
+                if (currentEnemies[i] != null) continue;
 
-                Console.WriteLine(SpawnEnemy);
+                Vector2[] chosenPath;
+                if (isAltPath)
+                {
+                    chosenPath = path2;
+                }
+                else
+                {
+                    chosenPath = path1;
+                }
+
+                new Enemy(path1, path1[0]);
+                isAltPath = !isAltPath;
+                break;
+                
+
             }
 
         }
 
-        public void RemoveEnemy()
+        public void RemoveEnemy(int index)
         {
-
+            currentEnemies[index] = null;
+        }
+        public void CheckForDeadEnemies()
+        {
+            for (int i = 0; i < currentEnemies.Length; i++)
+            {
+                if (currentEnemies[i].is_alive == false)
+                {
+                    RemoveEnemy(i);
+                }
+            }
+                
         }
 
         public void UpdateTowers()
@@ -129,6 +172,16 @@ namespace Game10003
 
                 towers[i].UpdateTower();
 
+            }
+
+          
+        }
+        public void UpdateEnemys()
+        {
+            for (int i = 0; i < currentEnemies.Length; i++) 
+            {
+                if (currentEnemies[i] == null) continue;
+                currentEnemies[i].UpdateEnemy();
             }
         }
     }

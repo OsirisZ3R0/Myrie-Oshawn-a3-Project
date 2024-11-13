@@ -31,7 +31,7 @@ namespace interactive_game
             Draw.LineColor = Color.Green;
             Draw.FillColor = Color.Blue;
 
-            Draw.Circle(position, 25);
+            Draw.Circle(position, size);
         }
 
         public void Shoot()
